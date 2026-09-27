@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Python: с нуля до Junior</title>
+<style>
+:root{
+  --bg:#F3F1EC;--surface:#FFFFFF;--fg:#1B1D22;--muted:#5B5F6B;--border:#DEDAD1;
+  --accent:#1F6F5C;--accent2:#A66A1E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171C;--surface:#1B1F26;--fg:#E7E5DF;--muted:#9AA0AC;--border:#2B2F38;
+    --accent:#4FBDA1;--accent2:#E3B341;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171C;--surface:#1B1F26;--fg:#E7E5DF;--muted:#9AA0AC;--border:#2B2F38;
+  --accent:#4FBDA1;--accent2:#E3B341;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body{
+  margin:0;background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px}
+header{margin-bottom:36px}
+h1{font-size:1.7rem;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:0 0 20px;max-width:62ch}
+.progress-row{display:flex;align-items:center;gap:12px}
+.progress-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);width:0%;transition:width .3s ease}
+@media (prefers-reduced-motion: reduce){.progress-fill{transition:none}}
+.progress-label{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.stage{position:relative;padding-left:56px;padding-bottom:40px}
+.stage:last-child{padding-bottom:0}
+.stage::before{content:"";position:absolute;left:19px;top:40px;bottom:-4px;width:1px;background:var(--border)}
+.stage:last-child::before{display:none}
+.stage.done::before{background:var(--accent)}
+.num{
+  position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-family:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+  font-size:.85rem;color:var(--muted);background:var(--bg);
+}
+.stage.done .num{border-color:var(--accent);color:var(--accent)}
+.stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+h2{font-size:1.15rem;margin:0;font-weight:600}
+.check-label{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;padding-top:4px}
+.check-label input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+.study{margin:0 0 16px;padding-left:20px;max-width:62ch}
+.study li{margin-bottom:6px}
+.task{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent2);border-radius:6px;padding:14px 16px;max-width:62ch}
+.task-label{font-size:.75rem;color:var(--accent2);font-weight:600;margin:0 0 6px}
+.task p{margin:0}
+footer{margin-top:12px;color:var(--muted);font-size:.85rem;max-width:62ch}
+@media (max-width:480px){
+  .wrap{padding:24px 16px 60px}
+  .stage{padding-left:48px}
+  .num{width:34px;height:34px;font-size:.75rem}
+  .stage::before{left:16px}
+  .stage-head{flex-direction:column;gap:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+<h1>Python: с нуля до Junior</h1>
+<p class="lede">14 этапов от первого скрипта до уровня, на котором не стыдно идти на собеседование. На каждом этапе — список тем для самостоятельного изучения и практическое задание на пройденном материале. Конспектов нет намеренно: искать документацию и разбираться самому — тоже часть навыка.</p>
+<div class="progress-row">
+<div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+<span class="progress-label"><span id="count">0</span>/14 пройдено</span>
+</div>
+</header>
+
+<main id="stages">
+
+<article class="stage" id="stage-1">
+<div class="num">01</div>
+<div class="stage-head">
+<h2>Первые шаги: синтаксис и вычисления</h2>
+<label class="check-label"><input type="checkbox" data-stage="1"> пройдено</label>
+</div>
+<ul class="study">
+<li>Установка Python и IDE (например VS Code), REPL и запуск .py-файлов</li>
+<li>Переменные, правила именования, комментарии</li>
+<li>Типы данных: int, float, str, bool; приведение типов</li>
+<li>print() и input()</li>
+<li>Арифметические, сравнения и логические операторы, приоритет операций</li>
+<li>Встроенные функции round(), len(), type()</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Напишите скрипт-калькулятор ИМТ: он спрашивает рост (в метрах) и вес (в кг), считает индекс массы тела и выводит результат, округлённый до одного знака после запятой.</p></div>
+</article>
+
+<article class="stage" id="stage-2">
+<div class="num">02</div>
+<div class="stage-head">
+<h2>Ветвление и циклы</h2>
+<label class="check-label"><input type="checkbox" data-stage="2"> пройдено</label>
+</div>
+<ul class="study">
+<li>Условия if / elif / else, вложенные условия</li>
+<li>Логические операторы and, or, not</li>
+<li>Циклы for и while, range()</li>
+<li>break, continue, конструкция else у циклов</li>
+<li>Модуль random: randint(), choice()</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Игра «Угадай число»: программа загадывает число от 1 до 100, пользователь вводит варианты, после каждой попытки программа подсказывает «больше» или «меньше», а в конце сообщает число попыток.</p></div>
+</article>
+
+<article class="stage" id="stage-3">
+<div class="num">03</div>
+<div class="stage-head">
+<h2>Строки</h2>
+<label class="check-label"><input type="checkbox" data-stage="3"> пройдено</label>
+</div>
+<ul class="study">
+<li>Индексация и срезы (slicing)</li>
+<li>Методы строк: split, join, strip, replace, find, lower/upper, isdigit/isalpha</li>
+<li>f-строки и форматирование чисел</li>
+<li>Оператор in, функция len()</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Программа принимает предложение от пользователя и выводит: количество слов, количество гласных букв, самое длинное слово и предложение в обратном порядке (реверс — только через срезы, без готовых функций).</p></div>
+</article>
+
+<article class="stage" id="stage-4">
+<div class="num">04</div>
+<div class="stage-head">
+<h2>Списки и кортежи</h2>
+<label class="check-label"><input type="checkbox" data-stage="4"> пройдено</label>
+</div>
+<ul class="study">
+<li>Создание, индексация и срезы списков</li>
+<li>Методы списков: append, insert, remove, pop, sort, reverse</li>
+<li>sorted() и сортировка по ключу (key=)</li>
+<li>Кортежи и их отличие от списков, когда что использовать</li>
+<li>List comprehension</li>
+<li>Вложенные списки</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Учёт покупок: список товаров хранится как список кортежей (название, цена). Посчитайте общую сумму покупки, найдите самый дорогой товар и выведите список, отсортированный по цене.</p></div>
+</article>
+
+<article class="stage" id="stage-5">
+<div class="num">05</div>
+<div class="stage-head">
+<h2>Словари и множества</h2>
+<label class="check-label"><input type="checkbox" data-stage="5"> пройдено</label>
+</div>
+<ul class="study">
+<li>dict: создание, доступ по ключу, get(), update(), keys()/values()/items()</li>
+<li>Dict comprehension</li>
+<li>set: уникальность элементов, объединение и пересечение множеств</li>
+<li>Когда выбирать list, dict или set</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Программа принимает текст и строит частотный словарь слов (без знаков препинания), затем выводит три самых часто встречающихся слова и число их повторений.</p></div>
+</article>
+
+<article class="stage" id="stage-6">
+<div class="num">06</div>
+<div class="stage-head">
+<h2>Функции</h2>
+<label class="check-label"><input type="checkbox" data-stage="6"> пройдено</label>
+</div>
+<ul class="study">
+<li>def, параметры, аргументы по умолчанию, *args и **kwargs</li>
+<li>return и множественный возврат значений</li>
+<li>Область видимости переменных (local/global)</li>
+<li>Лямбда-функции</li>
+<li>Рекурсия</li>
+<li>Docstring и принцип «одна функция — одна задача»</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Разбейте программу подсчёта частоты слов (этап 5) на отдельные функции — чтение текста, очистка, подсчёт, вывод результата. Дополнительно напишите функцию is_palindrome(word), проверяющую, является ли слово палиндромом.</p></div>
+</article>
+
+<article class="stage" id="stage-7">
+<div class="num">07</div>
+<div class="stage-head">
+<h2>Ошибки и файлы</h2>
+<label class="check-label"><input type="checkbox" data-stage="7"> пройдено</label>
+</div>
+<ul class="study">
+<li>try / except / else / finally, конкретные типы исключений</li>
+<li>raise и создание собственных исключений</li>
+<li>Чтение и запись файлов: open(), режимы доступа, конструкция with</li>
+<li>Модуль json: dump/load</li>
+<li>Модуль csv (базово)</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Консольное приложение «Заметки»: хранит заметки в JSON-файле, умеет добавлять, удалять, показывать список и искать заметку по слову. Некорректные ситуации (нет файла, пустой ввод) не должны приводить к падению программы.</p></div>
+</article>
+
+<article class="stage" id="stage-8">
+<div class="num">08</div>
+<div class="stage-head">
+<h2>Модули и окружение проекта</h2>
+<label class="check-label"><input type="checkbox" data-stage="8"> пройдено</label>
+</div>
+<ul class="study">
+<li>import, from ... import, псевдонимы (as)</li>
+<li>Структура проекта из нескольких файлов, if __name__ == "__main__"</li>
+<li>Виртуальные окружения: venv, активация</li>
+<li>pip, requirements.txt, PyPI</li>
+<li>Полезные модули стандартной библиотеки: os, datetime, math</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Разделите «Заметки» на несколько файлов (например main.py и storage.py), настройте виртуальное окружение и подключите одну внешнюю библиотеку (например colorama) для цветного вывода в терминале.</p></div>
+</article>
+
+<article class="stage" id="stage-9">
+<div class="num">09</div>
+<div class="stage-head">
+<h2>ООП: основы</h2>
+<label class="check-label"><input type="checkbox" data-stage="9"> пройдено</label>
+</div>
+<ul class="study">
+<li>Классы и объекты, атрибуты и методы</li>
+<li>__init__ и self</li>
+<li>Инкапсуляция: приватные атрибуты по соглашению (_ и __)</li>
+<li>Методы класса (classmethod) и статические методы (staticmethod)</li>
+<li>property, геттеры и сеттеры</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Перепишите «Заметки» в объектно-ориентированном стиле: класс Note для отдельной заметки и класс NotesManager, который отвечает за хранение, поиск и сохранение заметок в файл.</p></div>
+</article>
+
+<article class="stage" id="stage-10">
+<div class="num">10</div>
+<div class="stage-head">
+<h2>ООП: наследование и полиморфизм</h2>
+<label class="check-label"><input type="checkbox" data-stage="10"> пройдено</label>
+</div>
+<ul class="study">
+<li>Наследование, super()</li>
+<li>Полиморфизм и переопределение методов</li>
+<li>Магические методы: __str__, __repr__, __eq__, __len__</li>
+<li>Абстрактные базовые классы (модуль abc)</li>
+<li>Композиция как альтернатива наследованию</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Добавьте в «Заметки» разные типы заметок — TextNote и TodoNote, — унаследованные от базового класса Note, каждый со своим форматом отображения при выводе.</p></div>
+</article>
+
+<article class="stage" id="stage-11">
+<div class="num">11</div>
+<div class="stage-head">
+<h2>Тестирование и отладка</h2>
+<label class="check-label"><input type="checkbox" data-stage="11"> пройдено</label>
+</div>
+<ul class="study">
+<li>pytest (или unittest): структура тестов, assert</li>
+<li>Тестовые случаи и граничные значения (edge cases)</li>
+<li>Логирование (модуль logging) вместо print для отладки</li>
+<li>Базовая отладка: точки останова, чтение traceback</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Напишите не менее пяти тестов для функций «Заметок» (включая пустые и некорректные входные данные) и замените служебные print на логирование через logging.</p></div>
+</article>
+
+<article class="stage" id="stage-12">
+<div class="num">12</div>
+<div class="stage-head">
+<h2>Работа с внешними данными</h2>
+<label class="check-label"><input type="checkbox" data-stage="12"> пройдено</label>
+</div>
+<ul class="study">
+<li>HTTP-запросы: библиотека requests, методы GET/POST</li>
+<li>Работа с REST API и разбор JSON-ответа</li>
+<li>SQLite: модуль sqlite3, создание таблиц, INSERT/SELECT/UPDATE/DELETE</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Переведите хранение заметок с JSON-файла на SQLite. Отдельным скриптом получите случайную цитату с открытого API и сохраните её как новую заметку в базе.</p></div>
+</article>
+
+<article class="stage" id="stage-13">
+<div class="num">13</div>
+<div class="stage-head">
+<h2>Инструменты Junior-разработчика</h2>
+<label class="check-label"><input type="checkbox" data-stage="13"> пройдено</label>
+</div>
+<ul class="study">
+<li>Git: init, add, commit, push, ветки, merge, .gitignore</li>
+<li>GitHub: репозиторий, README</li>
+<li>Аннотации типов (type hints) и их польза</li>
+<li>Форматтеры и линтеры (например black, flake8), зачем нужен код-ревью</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Выложите «Заметки» на GitHub с понятным README, файлом .gitignore, requirements.txt и типизацией хотя бы у половины функций проекта.</p></div>
+</article>
+
+<article class="stage" id="stage-14">
+<div class="num">14</div>
+<div class="stage-head">
+<h2>Финальный проект и подготовка к поиску работы</h2>
+<label class="check-label"><input type="checkbox" data-stage="14"> пройдено</label>
+</div>
+<ul class="study">
+<li>Базовые алгоритмы: сложность O(), простые сортировки и поиск</li>
+<li>Проектирование и декомпозиция своей идеи на модули и классы</li>
+<li>Чтение чужого кода и документации</li>
+<li>Резюме, портфолио и типичные вопросы на собеседовании junior</li>
+</ul>
+<div class="task"><p class="task-label">Задание</p>
+<p>Реализуйте собственный pet-проект «с нуля» — консольное приложение, решающее реальную бытовую задачу, — и выложите его на GitHub. Дополнительно решите три классические задачи: разворот строки без встроенных функций реверса, поиск дубликатов в списке и FizzBuzz.</p></div>
+</article>
+
+</main>
+
+<footer>Отмечайте этапы галочкой — прогресс сохраняется в этом браузере.</footer>
+</div>
+
+<script>
+(function(){
+  var KEY='py-guide-progress';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){state={}}
+  var boxes=document.querySelectorAll('.stage input[type=checkbox]');
+  function update(){
+    var n=0;
+    boxes.forEach(function(b){if(b.checked)n++});
+    document.getElementById('count').textContent=n;
+    document.getElementById('fill').style.width=(n/boxes.length*100)+'%';
+  }
+  boxes.forEach(function(b){
+    var id=b.dataset.stage;
+    b.checked=!!state[id];
+    b.closest('.stage').classList.toggle('done',b.checked);
+    b.addEventListener('change',function(){
+      state[id]=b.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+      b.closest('.stage').classList.toggle('done',b.checked);
+      update();
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>
