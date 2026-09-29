@@ -3,77 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Python Z2J</title>
+<meta name="description" content="Пошаговый план изучения Python от первых скриптов до уровня Junior.">
+<link rel="icon" href="./materials/images/icon.png" type="image/png">
+<link rel="stylesheet" href="./style.css?v=10">
+<title>Python: с нуля до Junior</title>
 <style>
-:root{
-  --bg:#F3F1EC;--surface:#FFFFFF;--fg:#1B1D22;--muted:#5B5F6B;--border:#DEDAD1;
-  --accent:#1F6F5C;--accent2:#A66A1E;
+.guidebook-page {
+  --guidebook-accent: #a6b0b8;
+  --guidebook-border: rgba(255, 255, 255, 0.12);
+  --guidebook-surface: rgba(255, 255, 255, 0.035);
+  --guidebook-muted: rgba(255, 255, 255, 0.62);
+  color: #d9dde0;
+  line-height: 1.65;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#14171C;--surface:#1B1F26;--fg:#E7E5DF;--muted:#9AA0AC;--border:#2B2F38;
-    --accent:#4FBDA1;--accent2:#E3B341;
+.guidebook-page :focus-visible {
+  outline: 2px solid var(--guidebook-accent);
+  outline-offset: 3px;
+}
+.guidebook-page .guidebook-container {
+  align-items: stretch;
+  padding: 150px max(5vw, 24px) 80px;
+}
+.guidebook-page .guidebook-flare {
+  position: absolute;
+  z-index: 0;
+  width: min(44vw, 560px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+.guidebook-page .guidebook-flare-one {
+  top: 9%;
+  left: -16%;
+}
+.guidebook-page .guidebook-flare-two {
+  top: 43%;
+  right: -20%;
+}
+.guidebook-page .guidebook-content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+.guidebook-page .guidebook-header {
+  position: relative;
+  z-index: auto;
+  display: block;
+  height: auto;
+  padding: 0;
+  margin: 0 0 38px;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-align: center;
+}
+.guidebook-page .guidebook-title {
+  margin: 0 0 20px;
+  font-size: clamp(30px, 5vw, 58px);
+  line-height: 1.2;
+  letter-spacing: 2px;
+  text-transform: none;
+  text-wrap: balance;
+}
+.guidebook-page .lede {
+  max-width: 70ch;
+  margin: 0 auto 28px;
+  color: var(--guidebook-muted);
+  font-size: clamp(15px, 1.8vw, 18px);
+}
+.guidebook-page .progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.guidebook-page .progress-track {
+  height: 8px;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid var(--guidebook-border);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.06);
+}
+.guidebook-page .progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--guidebook-accent);
+  box-shadow: 0 0 16px rgba(166, 176, 184, 0.5);
+  transition: width 0.3s ease;
+}
+.guidebook-page .progress-label {
+  color: var(--guidebook-muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.guidebook-page #stages {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+.guidebook-page .stage {
+  position: relative;
+  min-width: 0;
+  padding: 24px 26px 24px 82px;
+  border: 1px solid var(--guidebook-border);
+  border-radius: 20px;
+  background: var(--guidebook-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.guidebook-page .stage.done {
+  border-color: rgba(166, 176, 184, 0.38);
+  background: rgba(116, 128, 139, 0.09);
+}
+.guidebook-page .num {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--guidebook-border);
+  border-radius: 50%;
+  color: var(--guidebook-muted);
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.22);
+}
+.guidebook-page .stage.done .num {
+  border-color: var(--guidebook-accent);
+  color: #fff;
+}
+.guidebook-page .stage-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.guidebook-page .stage h2 {
+  margin: 0;
+  color: #f2f3f4;
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: none;
+}
+.guidebook-page .check-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 4px;
+  color: var(--guidebook-muted);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.guidebook-page .check-label input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--guidebook-accent);
+  cursor: pointer;
+}
+.guidebook-page .study {
+  max-width: 75ch;
+  margin: 0 0 18px;
+  padding-left: 20px;
+  color: rgba(255, 255, 255, 0.76);
+}
+.guidebook-page .study li {
+  margin-bottom: 5px;
+  padding-left: 3px;
+}
+.guidebook-page .study li::marker {
+  color: var(--guidebook-accent);
+}
+.guidebook-page .task {
+  max-width: 78ch;
+  padding: 15px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3px solid var(--guidebook-accent);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.guidebook-page .task-label {
+  margin: 0 0 5px;
+  color: var(--guidebook-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+.guidebook-page .task p:last-child {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+}
+.guidebook-page .guidebook-footer {
+  max-width: 78ch;
+  margin: 28px auto 0;
+  color: var(--guidebook-muted);
+  font-size: 14px;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .guidebook-page .progress-fill,
+  .guidebook-page .stage {
+    transition: none;
   }
 }
-:root[data-theme="dark"]{
-  --bg:#14171C;--surface:#1B1F26;--fg:#E7E5DF;--muted:#9AA0AC;--border:#2B2F38;
-  --accent:#4FBDA1;--accent2:#E3B341;
+@media (max-width: 480px) {
+  .guidebook-page .guidebook-container {
+    padding: 120px 16px 56px;
+  }
+  .guidebook-page .guidebook-header {
+    margin-bottom: 28px;
+  }
+  .guidebook-page .stage {
+    padding: 20px 17px 20px 62px;
+    border-radius: 16px;
+  }
+  .guidebook-page .num {
+    top: 19px;
+    left: 15px;
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+  .guidebook-page .stage-head {
+    flex-direction: column;
+    gap: 7px;
+  }
+  .guidebook-page .task {
+    padding: 13px 14px;
+  }
 }
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-body{
-  margin:0;background:var(--bg);color:var(--fg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.55;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-.wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px}
-header{margin-bottom:36px}
-h1{font-size:1.7rem;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
-.lede{color:var(--muted);margin:0 0 20px;max-width:62ch}
-.progress-row{display:flex;align-items:center;gap:12px}
-.progress-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
-.progress-fill{height:100%;background:var(--accent);width:0%;transition:width .3s ease}
-@media (prefers-reduced-motion: reduce){.progress-fill{transition:none}}
-.progress-label{font-size:.85rem;color:var(--muted);white-space:nowrap}
-.stage{position:relative;padding-left:56px;padding-bottom:40px}
-.stage:last-child{padding-bottom:0}
-.stage::before{content:"";position:absolute;left:19px;top:40px;bottom:-4px;width:1px;background:var(--border)}
-.stage:last-child::before{display:none}
-.stage.done::before{background:var(--accent)}
-.num{
-  position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;
-  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
-  font-family:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
-  font-size:.85rem;color:var(--muted);background:var(--bg);
-}
-.stage.done .num{border-color:var(--accent);color:var(--accent)}
-.stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
-h2{font-size:1.15rem;margin:0;font-weight:600}
-.check-label{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;padding-top:4px}
-.check-label input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
-.study{margin:0 0 16px;padding-left:20px;max-width:62ch}
-.study li{margin-bottom:6px}
-.task{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent2);border-radius:6px;padding:14px 16px;max-width:62ch}
-.task-label{font-size:.75rem;color:var(--accent2);font-weight:600;margin:0 0 6px}
-.task p{margin:0}
-footer{margin-top:12px;color:var(--muted);font-size:.85rem;max-width:62ch}
-@media (max-width:480px){
-  .wrap{padding:24px 16px 60px}
-  .stage{padding-left:48px}
-  .num{width:34px;height:34px;font-size:.75rem}
-  .stage::before{left:16px}
-  .stage-head{flex-direction:column;gap:6px}
+@media (max-width: 600px) {
+  .guidebook-page .guidebook-flare {
+    width: 75vw;
+    opacity: 0.13;
+  }
 }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="portfolio-page-wrapper guidebook-page">
+<nav class="hero-top" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+<div class="flex-align">
+<nav class="social-icons">
+<a href="/" class="back-btn" title="На главную" aria-label="На главную">
+<svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+</a>
+<a href="/portfolio" aria-label="Портфолио"><img width="35" height="35" src="./materials/images/portfolio-gray.png" alt="" decoding="async"></a>
+<a href="/news" aria-label="Новости"><img width="35" height="35" src="./materials/images/news-gray.png" alt="" decoding="async"></a>
+<img width="35" height="35" src="./materials/images/link.png" alt="Ссылки" id="links-toggle" decoding="async" style="cursor: pointer; pointer-events: auto;">
+</nav>
+<nav class="links-pill" id="links-pill">
+<a href="https://github.com/mrruserr" target="_blank" rel="noopener"><img width="34" height="34" src="./materials/images/github.webp" alt="GitHub" decoding="async"></a>
+<a href="https://t.me/mruser_connect_bot" target="_blank" rel="noopener"><img width="34" height="34" src="./materials/images/tg.webp" alt="Telegram" decoding="async"></a>
+<img width="32" height="32" src="./materials/images/flower.png" alt="" decoding="async">
+</nav>
+</div>
+<div class="hero-tags mobile-hide">разработчик · дизайнер · менеджер · предприниматель</div>
+</nav>
 
-<header>
-<h1>Python: с нуля до Junior</h1>
+<main class="portfolio-container guidebook-container">
+<img src="./materials/images/l1.webp" class="guidebook-flare guidebook-flare-one" alt="" loading="lazy">
+<img src="./materials/images/l1.webp" class="guidebook-flare guidebook-flare-two" alt="" loading="lazy">
+<div class="guidebook-content">
+<header class="guidebook-header">
+<h1 class="portfolio-page-title guidebook-title">Python: с нуля до Junior</h1>
 <p class="lede">14 этапов от первого скрипта до уровня, на котором не стыдно идти на собеседование. На каждом этапе — список тем для самостоятельного изучения и практическое задание на пройденном материале. Конспектов нет намеренно: искать документацию и разбираться самому — тоже часть навыка.</p>
 <div class="progress-row">
 <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
@@ -81,7 +286,7 @@ footer{margin-top:12px;color:var(--muted);font-size:.85rem;max-width:62ch}
 </div>
 </header>
 
-<main id="stages">
+<div id="stages">
 
 <article class="stage" id="stage-1">
 <div class="num">01</div>
@@ -317,11 +522,14 @@ footer{margin-top:12px;color:var(--muted);font-size:.85rem;max-width:62ch}
 <p>Реализуйте собственный pet-проект «с нуля» — консольное приложение, решающее реальную бытовую задачу, — и выложите его на GitHub. Дополнительно решите три классические задачи: разворот строки без встроенных функций реверса, поиск дубликатов в списке и FizzBuzz.</p></div>
 </article>
 
-</main>
-
-<footer>Отмечайте этапы галочкой — прогресс сохраняется в этом браузере.</footer>
 </div>
 
+<footer class="guidebook-footer">Отмечайте этапы галочкой — прогресс сохраняется в этом браузере.</footer>
+</div>
+</main>
+</div>
+
+<script src="./js/navbar.js"></script>
 <script>
 (function(){
   var KEY='py-guide-progress';
